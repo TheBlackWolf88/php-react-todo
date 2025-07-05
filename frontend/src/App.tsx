@@ -1,5 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type MouseEvent } from "react";
 
+const be_url = import.meta.env.VITE_BE_URL;
+
 interface Todo {
     id: number;
     name: string;
@@ -9,20 +11,16 @@ interface Todo {
 async function handleComplete(e: ChangeEvent<HTMLInputElement>) {
     const action = e.target.checked ? "complete" : "uncomplete";
 
-    await fetch(
-        `http://localhost:8080/todos/${e.target.id}/${action}`,
-        {
-            method: "PATCH",
-        },
-    )
-    .catch(console.error);
+    await fetch(`${be_url}/todos/${e.target.id}/${action}`, {
+        method: "PATCH",
+    }).catch(console.error);
 }
 
 function App() {
     const [items, setItems] = useState<Todo[]>([]);
 
     const fetchTodos = () => {
-        fetch("http://localhost:8080/todos", { method: "get" })
+        fetch(`${be_url}/todos`, { method: "get" })
             .then((res) => res.json())
             .then((todos) => setItems(todos))
             .catch(console.error);
@@ -33,7 +31,7 @@ function App() {
         e: MouseEvent<HTMLButtonElement, MouseEvent>,
     ) => {
         e.preventDefault();
-        fetch(`http://localhost:8080/todos/${id}`, {
+        fetch(`${be_url}/todos/${id}`, {
             method: "DELETE",
         })
             .then(() => fetchTodos())
@@ -42,10 +40,10 @@ function App() {
 
     const onFormSubmit = (fd: FormData) => {
         let body = { name: fd.get("todo-name") };
-        fetch(`http://localhost:8080/todos`, {
+        fetch(`${be_url}/todos`, {
             method: "post",
             headers: {
-                "Content-Type": "application/json", // 👈 this is critical
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
         })
