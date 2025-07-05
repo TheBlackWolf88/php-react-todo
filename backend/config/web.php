@@ -13,8 +13,6 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'N6OJ0XiCwtALmojhGR7GYgV2lIg2NWRo',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
@@ -24,12 +22,6 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'todo/error',
-        ],
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

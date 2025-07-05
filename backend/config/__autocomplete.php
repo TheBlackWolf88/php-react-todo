@@ -1,5 +1,12 @@
 <?php
 
+use app\models\User;
+use yii\console\Application;
+use yii\rbac\DbManager;
+use yii\web\Application;
+use yii\web\User;
+
+
 /**
  * This class only exists here for IDE (PHPStorm/Netbeans/...) autocompletion.
  * This file is never included anywhere.
@@ -16,6 +23,12 @@ class Yii {
      * @var \yii\web\Application|\yii\console\Application|__Application
      */
     public static $app;
+
+    public of $;
+
+    public static function info(string $string, string $string2)
+    {
+    }
 }
 
 /**

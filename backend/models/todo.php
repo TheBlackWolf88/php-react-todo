@@ -18,7 +18,8 @@ class Todo extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'is_complete'], 'required'],
+            [['name'], 'required'],
+            [['is_complete'], 'default', 'value' => false],
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use yii\filters\Cors;
-use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
 class TodoController extends ActiveController
@@ -20,8 +19,7 @@ class TodoController extends ActiveController
     {
         return "error from todo";
     }
-    /**
-     * @return <missing>|null*/
+
     public function actionComplete(int $id)
     {
         $model = $this->modelClass::findOne($id);
@@ -31,8 +29,7 @@ class TodoController extends ActiveController
         }
         return null;
     }
-    /**
-     * @return <missing>|null*/
+
     public function actionUnComplete(int $id)
     {
         $model = $this->modelClass::findOne($id);
@@ -43,25 +40,7 @@ class TodoController extends ActiveController
         return null;
     }
 
-    public function beforeAction($action)
-    {
-        \Yii::info("Handling: " . \Yii::$app->request->method, 'cors-debug');
-        return parent::beforeAction($action);
-    }
-
-    public function actions()
-    {
-        $actions = parent::actions();
-
-        // Optional: register the built-in OPTIONS handler
-        $actions['options'] = [
-            'class' => 'yii\rest\OptionsAction',
-        ];
-
-        return $actions;
-    }
-
-    public function behaviors(): array
+    public function behaviors()
     {
         $behaviors = parent::behaviors();
 
@@ -69,16 +48,17 @@ class TodoController extends ActiveController
             'class' => Cors::class,
             'cors' => [
                 // adjust to your frontend origin
-                'Origin' => ['http://localhost:5173'],
+                'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-                'Access-Control-Allow-Credentials' => false,
-                'Access-Control-Allow-Headers' => ['*'], // ✅ allow all headers
-                'Access-Control-Max-Age' => 86400,
+                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Allow-Headers' => ['Authorization', 'Content-Type', 'X-Requested-With'],
             ],
         ];
         if (isset($behaviors['authenticator'])) {
             $behaviors['authenticator']['except'] = ['options'];
         }
+
+
         return $behaviors;
     }
 }
